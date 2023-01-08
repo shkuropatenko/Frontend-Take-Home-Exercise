@@ -1,0 +1,41 @@
+/* Core */
+@import "~sanitize.css";
+
+/* Instruments */
+@import "./css-vars.scss";
+@import "./reset.scss";
+
+/* Components Styles */
+@import "./styles/form.scss";
+@import "./styles/input.scss";
+
+:root {
+  min-height: 100vh;
+  background-color: var(--color-3);
+
+  @mixin font-family {
+    font-family: roboto, system-ui;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  & body {
+    min-height: 100vh;
+    margin: 0;
+
+    @include font-family;
+
+    & input,
+    & textarea {
+      @include font-family;
+    }
+  }
+
+  .wrapper {
+    padding: 44px 24px;
+
+    @media screen and (max-width: 600px) {
+      padding: 24px 14px;
+    }
+  }
+}
