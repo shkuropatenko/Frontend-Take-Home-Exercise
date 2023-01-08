@@ -1,0 +1,24 @@
+:root {
+  --nav-width: 110px;
+  --border-radius-angle: 15px;
+  --box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+  --rounded-corners-top: var(--border-radius-angle) var(--border-radius-angle)
+      0 0;
+  --rounded-corners-bottom: 0 0 var(--border-radius-angle)
+      var(--border-radius-angle);
+
+  // Palette
+  --color-1: #161619;
+  --color-2: #fff;
+  --color-3: #f1f2f5;
+  --color-4: #3d425c;
+  --color-5: #3d6cee;
+  --color-6: #d1dafe;
+  --color-7: #20232a;
+  --color-8: #f00;
+  --color-9: #008000;
+
+  @media screen and (max-width: 768px) {
+    --border-radius-angle: 8px;
+  }
+}

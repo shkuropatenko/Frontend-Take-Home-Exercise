@@ -1,33 +1,31 @@
-import './App.css';
-import Input from './components/input';
-import Select from 'react-select';
-
 import React, { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import axios from "./axiosInstance";
+import axios from "axios";
 
-const schema = yup.object().shape({
-  name: yup.string().required("Full Name is a required field"),
-  email: yup.string().required("Email is a required field").email("Email is not valid!"),
-  password: yup.string().min(8, "Password must be at least 8 characters").required(),
-  occupation: yup.string().required("occupation is a required field"),
-  state: yup.string().required("Select State")
+import Input from "./components/input";
+
+const schema = yup.object({
+  name: yup.string().min(2, "must be at least 2 characters").required("Full Name is a required field"),
+  email: yup.string().required("is a required field").email("Email is not valid!"),
+  password: yup.string().min(8, "must be at least 8 characters").required(),
+  occupation: yup.string().required("is a required field"),
+  state: yup.string().required("is a required field")
 });
 
 function App() {
   const { handleSubmit, register, formState: { errors }, control } = useForm({
     resolver: yupResolver(schema)
   });
-
-  const methods = useForm();
-  const default_value = 1;
-
   const [selectOption, setSelectOption] = useState([]);
+  const [statusOk, setStatusOk] = useState(false);
+  const arrStates = [];
+  const arrOccupations = [];
+
   useEffect(() => {
     const getSelect = async () => {
-      const res = await fetch('https://frontend-take-home.fetchrewards.com/form');
+      const res = await fetch("https://frontend-take-home.fetchrewards.com/form");
       const getSelectOptions = await res.json();
       setSelectOption(await getSelectOptions);
     }
@@ -35,99 +33,84 @@ function App() {
     getSelect();
   }, []);
 
-  const [selectedYear, setSelectedYear] = useState("");
-  const handleYearChange = (selectedYear) => {
-    setSelectedYear(selectedYear);
-  };
-
   const formSubmit = data => {
-    console.log(data)
     axios
       .post(
-        'https://frontend-take-home.fetchrewards.com/form',
+        "https://frontend-take-home.fetchrewards.com/form",
         data,
-        { headers: { 'Content-Type': 'application/json' } }
+        setStatusOk(true),
+        { headers: { "Content-Type": "application/json" } }
       )
       .then(response => { console.log(response.data) })
       .catch(error => { console.log(error.data) });
   };
 
-  const arrStates = [];
-  const arrOccupations = [];
-
-  const objStates = selectOption?.states?.map(item => {
+  selectOption?.states?.map(item => {
     return arrStates.push({
       label: item.abbreviation,
       value: item.name
     })
   })
 
-  const objOccupations = selectOption?.occupations?.map(item => {
+  selectOption?.occupations?.map(item => {
     return arrOccupations.push({
       label: item,
       value: item
     })
   })
-  console.log(selectOption)
 
   return (
-    <div className="App">
-      <form onSubmit={handleSubmit(formSubmit)}>
-        <Input
-          id="name"
-          label="Full Name"
-          type="text"
-          placeholder="Full Name"
-          register={{ ...register("name") }}
-          errorsMessage={errors.fullName?.message}
-        />
-        <Input
-          id="email"
-          label="Email"
-          type="email"
-          placeholder="Email"
-          register={{ ...register("email") }}
-          errorsMessage={errors.email?.message}
-        />
-        <Input
-          id="password"
-          label="Password"
-          type="password"
-          placeholder="Enter Password"
-          register={{ ...register("password") }}
-          errorsMessage={errors.password?.message}
-        />
-        <Controller
-          control={control}
-          defaultValue={arrStates.map(c => c.value)}
-          name="state"
-          render={({ field: { onChange, value, ref } }) => (
-            <Select
-              inputRef={ref}
-              value={arrStates.filter(c => value.includes(c.value))}
-              onChange={val => onChange(val.value)}
-              register={{ ...register("state") }}
-              options={arrStates}
-            />
-          )}
-        />
-        <Controller
-          control={control}
-          defaultValue={arrOccupations.map(c => c.value)}
-          name="occupation"
-          render={({ field: { onChange, value, ref } }) => (
-            <Select
-              inputRef={ref}
-              value={arrOccupations.filter(c => value.includes(c.value))}
-              onChange={val => onChange(val.value)}
-              register={{ ...register("state") }}
-              options={arrOccupations}
-            />
-          )}
-        />
-        <button>Sign Up</button>
+    <div className="wrapper">
+      <form onSubmit={handleSubmit(formSubmit)} className={`user-form ${statusOk ? "success" : ""}`}>
+        <fieldset>
+          <legend>Our contact details</legend>
+          <Input
+            id="name"
+            label="Full Name"
+            type="text"
+            placeholder="Full Name"
+            register={{ ...register("name") }}
+            errorsMessage={errors.fullName?.message}
+          />
+          <Input
+            id="email"
+            label="Email"
+            type="email"
+            placeholder="Email"
+            register={{ ...register("email") }}
+            errorsMessage={errors.email?.message}
+          />
+          <Input
+            id="password"
+            label="Password"
+            type="password"
+            placeholder="Enter Password"
+            register={{ ...register("password") }}
+            errorsMessage={errors.password?.message}
+          />
+          <Input
+            label="State"
+            tag="select"
+            name="state"
+            arr={arrStates}
+            control={control}
+            register={{ ...register("state") }}
+            errorsMessage={errors.state?.message}
+          />
+          <Input
+            label="Occupation"
+            tag="select"
+            name="occupation"
+            arr={arrOccupations}
+            control={control}
+            register={{ ...register("occupation") }}
+            errorsMessage={errors.occupation?.message}
+          />
+          <button type="submit">Sign Up</button>
+          <span className="request-text">Request sent successfully!</span>
+        </fieldset>
       </form>
-    </div >
+    </div>
   );
 }
 
