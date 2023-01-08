@@ -69,6 +69,7 @@ function App() {
             label="Full Name"
             type="text"
             placeholder="Full Name"
+            isDisabled={statusOk}
             register={{ ...register("name") }}
             errorsMessage={errors.fullName?.message}
           />
@@ -77,6 +78,7 @@ function App() {
             label="Email"
             type="email"
             placeholder="Email"
+            isDisabled={statusOk}
             register={{ ...register("email") }}
             errorsMessage={errors.email?.message}
           />
@@ -85,6 +87,7 @@ function App() {
             label="Password"
             type="password"
             placeholder="Enter Password"
+            isDisabled={statusOk}
             register={{ ...register("password") }}
             errorsMessage={errors.password?.message}
           />
@@ -94,6 +97,7 @@ function App() {
             name="state"
             arr={arrStates}
             control={control}
+            isDisabled={statusOk}
             register={{ ...register("state") }}
             errorsMessage={errors.state?.message}
           />
@@ -103,6 +107,7 @@ function App() {
             name="occupation"
             arr={arrOccupations}
             control={control}
+            isDisabled={statusOk}
             register={{ ...register("occupation") }}
             errorsMessage={errors.occupation?.message}
           />

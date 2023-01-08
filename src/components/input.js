@@ -1,12 +1,13 @@
 import Select from "react-select";
 import { Controller } from "react-hook-form";
 
-export default function Input({ tag, id, label, placeholder, type, register, errorsMessage, name, arr, control }) {
+export default function Input({ tag, id, label, placeholder, type, register, errorsMessage, name, arr, control, isDisabled }) {
   let input = (
     <input
       placeholder={placeholder}
       type={type}
       id={id}
+      disabled={isDisabled}
       {...register}
       className="input"
     />
@@ -30,6 +31,7 @@ export default function Input({ tag, id, label, placeholder, type, register, err
               onChange={val => onChange(val.value)}
               register={{ ...register }}
               options={arr}
+              isDisabled={isDisabled}
             />
           )}
         />
