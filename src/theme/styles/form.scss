@@ -81,5 +81,10 @@
     .request-text {
       display: block;
     }
+
+    button {
+      pointer-events: none;
+      background: rgba(59, 59, 59, 0.05);
+    }
   }
 }
