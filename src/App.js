@@ -25,7 +25,7 @@ function App() {
 
   useEffect(() => {
     const getSelect = async () => {
-      const res = await fetch("https://frontend-take-home.fetchrewards.com/form");
+      const res = await fetch(`${process.env.REACT_APP_API_URL}`);
       const getSelectOptions = await res.json();
       setSelectOption(await getSelectOptions);
     }
@@ -36,7 +36,7 @@ function App() {
   const formSubmit = data => {
     axios
       .post(
-        "https://frontend-take-home.fetchrewards.com/form",
+        `${process.env.REACT_APP_API_URL}`,
         data,
         setStatusOk(true),
         { headers: { "Content-Type": "application/json" } }
