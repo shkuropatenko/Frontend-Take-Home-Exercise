@@ -1,3 +1,6 @@
+# Frontend Test
+This project was created using the react library. This project demonstrates the operation of the user registration form with required fields, such as: Full Name, Email, Password, State and Occupation. Validation form created, all fields must be filled in to submit the form. And also added status about successful form submission.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
